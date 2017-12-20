@@ -1,0 +1,33 @@
+{
+	"RuleName":"CAM",
+	"actions":[
+		{
+			"action":{
+				"op":"UpdateConfig",
+				"config":{
+					"codid":"123213",
+					"modid":"6542131"
+					},
+				"warn":{
+					"we_chat":"123456",
+					"content":"Cam Auth"
+				}
+			},
+			"condition":[
+				{"rule":[
+						{"CAM.Mysql-XXX.success_rate":0.98,"op":"<"},
+						{"CAM.Mysql-XXX.region":"ap-guangzhou","op":"=="}
+					],
+				"description":"11xxx"
+				},
+				{"rule":[
+						{"CAM.Mysql-XXX.success_rate":0.98,"op":"<"},
+						{"CAM.Mysql-XXX.region":"ap-guangzhou","op":"=="}
+					],
+				"description":"xxx"
+				}
+			]
+		}
+	],
+	"description":"Fault"
+}
