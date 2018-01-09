@@ -24,10 +24,6 @@ def calc(lnum, op, rnum):
     elif op == "!=":
         return lnum != rnum
 
-
-
-
-
 class Parser(object):
     def __init__(self, _path):
         with open(_path, 'r') as f:
@@ -52,16 +48,21 @@ class Parser(object):
 
     def get_data(self, dict):
         wait_seconds=3
-        recv_msg = self.my_queue.receive_message(wait_seconds)
-        print "Receive Message Succeed! ReceiptHandle:%s MessageBody:%s MessageID:%s" % (recv_msg.receiptHandle, recv_msg.msgBody, recv_msg.msgId)
-        self.my_queue.delete_message(recv_msg.receiptHandle)
-         
-        msg_count=3
-        messages=[]
-        for i in range(msg_count):
-            msg_body = "I am test message %s." % i
-            msg = Message(msg_body)
-            messages.append(msg)
+        _time = 0
+        _message = "" 
+        try:
+            while True:
+                #接收消息
+                recv_msg = my_queue.receive_message()
+                print "Receive Message Succeed! ReceiptHandle:%s MessageBody:%s MessageID:%s" % (recv_msg.receiptHandle, recv_msg.msgBody, recv_msg.msgId)
+                if recv_msg.enqueueTime > _time:
+                    _time = recv_msg.enqueueTime
+                    _message = recv_msg.msgBody
+                    
+                my_queue.delete_message(recv_msg.receiptHandle)
+        except CMQExceptionBase:
+            pass
+        
         return True
 
     def rule_parser(self, rule):
